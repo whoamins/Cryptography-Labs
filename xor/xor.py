@@ -1,4 +1,3 @@
-from cgitb import text
 from itertools import cycle
 
 
