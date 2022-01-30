@@ -5,7 +5,9 @@ def encrypt(text: str, key: int) -> str:
     result = str()
 
     for char in text:
-        if char.isupper():
+        if char.isspace():
+            result += ' '
+        elif char.isupper():
             result += chr((ord(char) + key - ord('A')) % 26 + ord('A'))
         else:
             result += chr((ord(char) + key - ord('a')) % 26 + ord('a'))
