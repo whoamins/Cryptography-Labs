@@ -1,10 +1,11 @@
-import code
-from pwn import * # pip install pwntools
 import json
 import string
 import codecs
+
+from pwn import *
 from Crypto.Util.number import bytes_to_long, long_to_bytes
 from base64 import b64decode
+
 
 r = remote('socket.cryptohack.org', 13377)
 
