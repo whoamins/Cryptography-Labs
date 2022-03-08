@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"unicode"
 )
 
@@ -13,8 +14,11 @@ func main() {
 		{"v", "w", "x", "y", "z"},
 	}
 
-	encrypted := encrypt2("sometext", square)
-	print(encrypted)
+	encrypted1 := encrypt1("sometext", square)
+	encrypted2 := encrypt2("sometext", square, "row")
+	encrypted3 := encrypt2("sometext", square, "col")
+
+	fmt.Printf("%s\n%s\n%s\n", encrypted1, encrypted2, encrypted3)
 }
 
 func encrypt1(message string, square [5][5]string) string {
@@ -42,7 +46,7 @@ func encrypt1(message string, square [5][5]string) string {
 	return result
 }
 
-func encrypt2(message string, square [5][5]string) string {
+func encrypt2(message string, square [5][5]string, mode string) string {
 	var rowIndexes []int
 	var colIndexes []int
 
@@ -59,13 +63,23 @@ func encrypt2(message string, square [5][5]string) string {
 
 	var indexes []int
 
-	// use for i := range
-	for i := 0; i < len(rowIndexes); i += 1 {
-		indexes = append(indexes, colIndexes[i])
-	}
+	if mode == "col" {
+		// use for i := range
+		for i := 0; i < len(rowIndexes); i += 1 {
+			indexes = append(indexes, colIndexes[i])
+		}
 
-	for i := 0; i < len(rowIndexes); i += 1 {
-		indexes = append(indexes, rowIndexes[i])
+		for i := 0; i < len(rowIndexes); i += 1 {
+			indexes = append(indexes, rowIndexes[i])
+		}
+	} else if mode == "row" {
+		for i := 0; i < len(rowIndexes); i += 1 {
+			indexes = append(indexes, rowIndexes[i])
+		}
+
+		for i := 0; i < len(rowIndexes); i += 1 {
+			indexes = append(indexes, colIndexes[i])
+		}
 	}
 
 	result := ""
