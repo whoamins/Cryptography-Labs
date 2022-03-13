@@ -26,3 +26,5 @@ if __name__ == "__main__":
     hash2 = encrypt(message=password2, key=b"KGS!@#$%")[1]
 
     print(hash1, hash2)
+    
+    # It doesn't work correctly now
