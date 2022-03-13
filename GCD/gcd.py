@@ -10,13 +10,14 @@ def gcd(a: int, b: int):
         elif a == b:
             print(f"GCD is {a}")
             break
-    
+
     return a
+
 
 def gcd_2(a: int, b: int):
     while b:
         a, b = b, a % b
-    
+
     return a
 
 
@@ -30,5 +31,9 @@ def gcd_for_multiple_numbers():
     return gcd
 
 
+def lcm(a: int, b: int):
+    return f"LCM: {a / gcd(a, b) * b}"
+
+
 if __name__ == "__main__":
-    print(gcd_for_multiple_numbers())
+    print(lcm(346, 4567))
