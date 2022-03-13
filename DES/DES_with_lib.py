@@ -3,10 +3,7 @@ from secrets import token_bytes
 from sys import argv
 
 
-key = token_bytes(8)
-
-
-def encrypt(message):
+def encrypt(message, key):
     cipher = DES.new(key, DES.MODE_EAX)
     cipher_nonce = cipher.nonce
     cipher_text, cipher_tag = cipher.encrypt_and_digest(message.encode('ascii'))
@@ -14,7 +11,7 @@ def encrypt(message):
     return cipher_nonce, cipher_text, cipher_tag
 
 
-def decrypt(nonce, ciphertext, tag):
+def decrypt(nonce, ciphertext, tag, key):
     cipher = DES.new(key, DES.MODE_EAX, nonce=nonce)
     plain_text = cipher.decrypt(ciphertext)
 
