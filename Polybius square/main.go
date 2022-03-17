@@ -15,8 +15,8 @@ func main() {
 	}
 
 	encrypted1 := encrypt1("sometext", square)
-	encrypted2 := encrypt2("sometext", square, "row")
-	encrypted3 := encrypt2("sometext", square, "col")
+	encrypted2 := encrypt2("sometext", square, "col")
+	encrypted3 := encrypt2("sometext", square, "row")
 
 	fmt.Printf("%s\n%s\n%s\n", encrypted1, encrypted2, encrypted3)
 }
@@ -63,22 +63,23 @@ func encrypt2(message string, square [5][5]string, mode string) string {
 
 	var indexes []int
 
+	// Maybe I should just reverse parts of indexes and not use this if else block
+
 	if mode == "col" {
-		// use for i := range
-		for i := 0; i < len(rowIndexes); i += 1 {
-			indexes = append(indexes, colIndexes[i])
+		for _, number := range colIndexes {
+			indexes = append(indexes, number)
 		}
 
-		for i := 0; i < len(rowIndexes); i += 1 {
-			indexes = append(indexes, rowIndexes[i])
+		for _, number := range rowIndexes {
+			indexes = append(indexes, number)
 		}
 	} else if mode == "row" {
-		for i := 0; i < len(rowIndexes); i += 1 {
-			indexes = append(indexes, rowIndexes[i])
+		for _, number := range rowIndexes {
+			indexes = append(indexes, number)
 		}
 
-		for i := 0; i < len(rowIndexes); i += 1 {
-			indexes = append(indexes, colIndexes[i])
+		for _, number := range colIndexes {
+			indexes = append(indexes, number)
 		}
 	}
 
