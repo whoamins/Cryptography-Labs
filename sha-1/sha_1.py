@@ -1,71 +1,82 @@
-def sha1_hash(data):
-    message_in_bytes = ""
+class SHA1:
+    def __init__(self, message):
+        self._h0 = 0x67452301
+        self._h1 = 0xEFCDAB89
+        self._h2 = 0x98BADCFE
+        self._h3 = 0x10325476
+        self._h4 = 0xC3D2E1F0
+        self.message_in_bytes = str()
+        self.message = message
 
-    h0 = 0x67452301
-    h1 = 0xEFCDAB89
-    h2 = 0x98BADCFE
-    h3 = 0x10325476
-    h4 = 0xC3D2E1F0
+    def _prepare_data(self):
+        for n in range(len(self.message)):
+            self.message_in_bytes += '{0:08b}'.format(ord(self.message[n]))
 
-    for n in range(len(data)):
-        message_in_bytes += '{0:08b}'.format(ord(data[n]))
+        bits = self.message_in_bytes + "1"
+        padding = bits
 
-    bits = message_in_bytes + "1"
-    padding = bits
-    
-    while len(padding) % 512 != 448:
-        padding += "0"
+        while len(padding) % 512 != 448:
+            padding += "0"
 
-    padding += '{0:064b}'.format(len(bits) - 1)
+        padding += '{0:064b}'.format(len(bits) - 1)
 
-    def chunks(l, n):
+        return padding
+
+    def _chunks(self, l, n):
         return [l[i:i + n] for i in range(0, len(l), n)]
 
-    def rol(n, b):
+    def _rol(self, n, b):
         return ((n << b) | (n >> (32 - b))) & 0xffffffff
 
-    for c in chunks(padding, 512):
-        words = chunks(c, 32)
-        w = [0] * 80
-        for n in range(0, 16):
-            w[n] = int(words[n], 2)
-        for i in range(16, 80):
-            w[i] = rol((w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]), 1)
+    def _main_loop(self):
+        padding = self._prepare_data()
+        for c in self._chunks(padding, 512):
+            words = self._chunks(c, 32)
+            w = [0] * 80
 
-        a = h0
-        b = h1
-        c = h2
-        d = h3
-        e = h4
+            for n in range(0, 16):
+                w[n] = int(words[n], 2)
+            for i in range(16, 80):
+                w[i] = self._rol((w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]), 1)
 
-        for i in range(0, 80):
-            if 0 <= i <= 19:
-                f = (b & c) | ((~b) & d)
-                k = 0x5A827999
-            elif 20 <= i <= 39:
-                f = b ^ c ^ d
-                k = 0x6ED9EBA1
-            elif 40 <= i <= 59:
-                f = (b & c) | (b & d) | (c & d)
-                k = 0x8F1BBCDC
-            elif 60 <= i <= 79:
-                f = b ^ c ^ d
-                k = 0xCA62C1D6
+            a = self._h0
+            b = self._h1
+            c = self._h2
+            d = self._h3
+            e = self._h4
 
-            temp = rol(a, 5) + f + e + k + w[i] & 0xffffffff
-            e = d
-            d = c
-            c = rol(b, 30)
-            b = a
-            a = temp
+            for i in range(0, 80):
+                if 0 <= i <= 19:
+                    f = (b & c) | ((~b) & d)
+                    k = 0x5A827999
+                elif 20 <= i <= 39:
+                    f = b ^ c ^ d
+                    k = 0x6ED9EBA1
+                elif 40 <= i <= 59:
+                    f = (b & c) | (b & d) | (c & d)
+                    k = 0x8F1BBCDC
+                elif 60 <= i <= 79:
+                    f = b ^ c ^ d
+                    k = 0xCA62C1D6
 
-        h0 = h0 + a & 0xffffffff
-        h1 = h1 + b & 0xffffffff
-        h2 = h2 + c & 0xffffffff
-        h3 = h3 + d & 0xffffffff
-        h4 = h4 + e & 0xffffffff
+                temp = self._rol(a, 5) + f + e + k + w[i] & 0xffffffff
+                e = d
+                d = c
+                c = self._rol(b, 30)
+                b = a
+                a = temp
 
-    return '%08x%08x%08x%08x%08x' % (h0, h1, h2, h3, h4)
+            self._h0 = self._h0 + a & 0xffffffff
+            self._h1 = self._h1 + b & 0xffffffff
+            self._h2 = self._h2 + c & 0xffffffff
+            self._h3 = self._h3 + d & 0xffffffff
+            self._h4 = self._h4 + e & 0xffffffff
+
+        return '%08x%08x%08x%08x%08x' % (self._h0, self._h1, self._h2, self._h3, self._h4)
+
+    def hash_message(self):
+        return self._main_loop()
 
 
-print(sha1_hash("hello world"))
+sha1 = SHA1("hello world")
+print(sha1.hash_message())
