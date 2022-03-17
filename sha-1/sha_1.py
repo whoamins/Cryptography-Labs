@@ -22,22 +22,22 @@ class SHA1:
 
         return padding
 
-    def _chunks(self, l, n):
+    def _chunk_data(self, l, n):
         return [l[i:i + n] for i in range(0, len(l), n)]
 
-    def _rol(self, n, b):
+    def _shift(self, n, b):
         return ((n << b) | (n >> (32 - b))) & 0xffffffff
 
     def _main_loop(self):
         padding = self._prepare_data()
-        for c in self._chunks(padding, 512):
-            words = self._chunks(c, 32)
+        for c in self._chunk_data(padding, 512):
+            words = self._chunk_data(c, 32)
             w = [0] * 80
 
             for n in range(0, 16):
                 w[n] = int(words[n], 2)
             for i in range(16, 80):
-                w[i] = self._rol((w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]), 1)
+                w[i] = self._shift((w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]), 1)
 
             a = self._h0
             b = self._h1
@@ -59,10 +59,10 @@ class SHA1:
                     f = b ^ c ^ d
                     k = 0xCA62C1D6
 
-                temp = self._rol(a, 5) + f + e + k + w[i] & 0xffffffff
+                temp = self._shift(a, 5) + f + e + k + w[i] & 0xffffffff
                 e = d
                 d = c
-                c = self._rol(b, 30)
+                c = self._shift(b, 30)
                 b = a
                 a = temp
 
