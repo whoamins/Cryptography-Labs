@@ -4,11 +4,10 @@ from sys import argv
 
 
 def encrypt(message, key):
-    cipher = DES.new(key, DES.MODE_EAX)
-    cipher_nonce = cipher.nonce
-    cipher_text, cipher_tag = cipher.encrypt_and_digest(message.encode('ascii'))
+    cipher = DES.new(key, DES.MODE_OFB)
+    cipher_text = cipher.iv + cipher.encrypt(message.encode('ascii'))
 
-    return cipher_nonce, cipher_text, cipher_tag
+    return cipher_text.hex()
 
 
 def decrypt(nonce, ciphertext, tag, key):
