@@ -1,5 +1,6 @@
 import sys
 
+
 def make_vernam_cipher(text, key):
     result = str()
     counter = 0
