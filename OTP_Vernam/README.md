@@ -9,7 +9,6 @@ K  = 10110100
 C1 = P1 ^ K = 11011001
 C2 = P2 ^ K = 11101110
 ```
-
 # How can I get plaintext if I have only the key and Ciphertext.
 
 
