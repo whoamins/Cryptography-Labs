@@ -8,7 +8,7 @@
 
 На вход каждой из них поступает 64 бита, которые затем переставляются в соответствие с заданными таблицами. Эти перестановки взаимно обратны. Другими словами, 58-й бит на входе начальной перестановке переходит в 1-ую позицию на выходе из нее. А финальная перестановка 1-ый входной бит переведет в 58-ую позицию на выходе из нее.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c75f517c-fda6-460e-aa5e-3b9d9ffdfe28/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159334800-fcabacc1-83bf-433d-a705-c0d75d953142.png)
 
 Обе перестановки не имеют никакого значения для криптографии. Причина, почему они включены в DES, не ясна и не указана проектировщиками DES.
 
@@ -40,13 +40,13 @@
 
 Во время конечной перестановки все наоборот. На 58 позицию встает первый элемент, на 50 позицию встает 2 элемент, на 42 позицию встает 3 элемент.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4b3fd77a-c416-4a0e-9908-e0ca0e504939/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159334841-5c4ce069-12b8-434f-ace1-17d40d51359f.png)
 
 ## Раунды DES. Сеть Фейстеля.
 
 DES использует 16 раундов. Каждый раунд DES применяет сеть Фейстеля, как показано ниже
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6057e420-b631-4e5f-b399-8753510b89e8/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159334882-95203e12-4f21-4c95-8681-87197ca9ea67.png)
 
 Раунд принимает блоки Li-1 и Ri-1 от предыдущего раунда (или начального блока перестановки) и создает полублоки Li и Ri для входа в следующий раунд (или конечный блок перестановки). 
 
@@ -54,13 +54,13 @@ DES использует 16 раундов. Каждый раунд DES прим
 
 Функция DES с помощью 48-битового ключа зашифровывает 32 самых правых бит Ri-1, что бы на выходе получить 32-битовый результат. Эта функция содержит, как это показано на 4 составляющие: Операция XOR, P-бокс расширения, группу S-боксов и прямой бокс.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5beadafd-d932-477f-ace6-db026669ca93/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335025-99d76be5-4ec3-4a41-8328-d24aabef57f3.png)
 
 **P-бокс расширения (Расширение Е)** служит для расширения 32-битового блока Ri-1 до 48 битов, что бы согласовать его размер с размером подключа раунда. Блок Ri-1 делится на 8 секция по 4 бита. Каждая секция расширяется до 6 бит путем дублирования.
 
 Таблица P-бокс расширения (Расширения Е)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/54757b8a-7254-46bd-bae7-38444c5f5bb7/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335077-f99f5313-b548-4acb-ad80-4cbdffdf0894.png)
 
 Первые три бита таблицы являются битами 32, 1, 2 от блока Ri-1. По таблице видно, что 1, 4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 32 дублируются. Последние 3 бита - это биты 31, 32, 1 блока Ri-1. 
 
@@ -75,9 +75,9 @@ Ri-1 =                  00100000000000100000000000001000
 
 После xor’a битами ключа блок из 48 битов делится на 8 последовательных 6-битовых векторов b1,b2,...,b8 каждый из которых заменяется на 4-битовый блок Bj с помощью **S-блоков.**
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d6e08da6-1024-4fe6-b90a-b6723e4521c4/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335168-0540a28e-935c-4a0c-9f2b-6ca12029506e.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/62b21b87-6b8c-417d-ad66-30c0ff622d9d/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335191-4e023bec-ec46-421d-adc9-c153c1768eae.png)
 
 b1 попадает в S1, b2 попадает в S2 и так далее
 
@@ -106,7 +106,7 @@ b1 попадает в S1, b2 попадает в S2 и так далее
 
 Далее биты блока перетасовываются в прямом P-боксе на основе заданной таблицы (правила пользования таблицей перестановки старые: 7-ой бит входа станет 2-ым битом выхода).
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c9e2888a-32d7-4ac7-b00f-5a2a89a413fb/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335243-4dded0e2-2d06-4305-bd33-26811bb2dbf0.png)
 
 После 16-раунда DES правый и левый блоки уже не меняются местами, а объединяются в блок R16L16 и подвергаются финальной перестановке IP^-1.
 
@@ -116,7 +116,7 @@ DES создает 16 раундовых ключей Ki по 48 битов из
 
 Затем делается перестановка ключа по таблице, которая ниже
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5ab48e4f-71eb-4a6f-be01-5146194a49fe/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335282-e0272aa7-f6a9-4835-b3f9-cd439c8dfd66.png)
 
 Результат преобразования разбивается на два 28-битных блока
 
@@ -124,8 +124,8 @@ DES создает 16 раундовых ключей Ki по 48 битов из
 
 После определения С и D рекурсивно определяется C(i) и D(i), i = 1...16. Для этого применяется циклический сдвиг влево на один или два бита в зависимости от номера итерации.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f9b4d2a-3f14-404e-8bd5-ad47d20f6e5e/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335325-7aaf0571-efee-47d3-a4dd-e2e6bf1f4443.png)
 
 Полученные значения вновь переставляются по таблице.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/756bf725-7762-423d-b0aa-00606b633d9b/Untitled.png)
+![image](https://user-images.githubusercontent.com/66217512/159335348-512c9a62-2efb-4234-8950-786e156411d0.png)
