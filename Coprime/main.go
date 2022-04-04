@@ -1,4 +1,4 @@
-package coprime
+package main
 
 func Coprime(a, b int) bool {
 	if gcd(a, b) == 1 {
@@ -9,9 +9,13 @@ func Coprime(a, b int) bool {
 }
 
 func gcd(a, b int) int {
-	for i := 0; i != b; b-- {
-		a, b = b, b%a
+	for b != 0 {
+		a, b = b, a%b
 	}
 
 	return a
+}
+
+func main() {
+	print(Coprime(30, 1))
 }
