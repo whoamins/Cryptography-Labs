@@ -12,4 +12,4 @@ def print_all_coprime_less_than_n(n: int) -> int:
 
 
 if __name__ == "__main__":
-    print("fi(n)=", print_all_coprime_less_than_n(10))
+    print("fi(n)=", print_all_coprime_less_than_n(13))
