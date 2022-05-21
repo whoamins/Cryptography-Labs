@@ -36,4 +36,4 @@ def lcm(a: int, b: int):
 
 
 if __name__ == "__main__":
-    print(gcd(66528, 52920))
+    print(lcm(343, 126))
